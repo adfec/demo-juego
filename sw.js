@@ -1,7 +1,11 @@
 var dataCacheName = 'demo';
 var cacheName = 'demoPWA';
 var filesToCache = [
-  '/'
+  '/index.html',
+  '/avatar.html',
+  '/guia.html',
+  '/juego.html',
+  '/perfil.html'
 ];
 
 self.addEventListener('install', function(e) {
