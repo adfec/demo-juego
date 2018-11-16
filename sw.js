@@ -32,14 +32,16 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
-	    e.respondWith(
-	      caches.open(dataCacheName).then(function(cache) {
-	    	return cache.match(e.request).then(function(response){
-	    	  return response || fetch(e.request).then(function(response){
-		          cache.put(e.request.url, response.clone());
-		          return response;
-	    	  });
-	        });
-	      })
-	    );
+  if (e.request.method === 'GET') {
+    e.respondWith(
+      caches.open(dataCacheName).then(function(cache) {
+	return cache.match(e.request).then(function(response){
+	  return response || fetch(e.request).then(function(response){
+	     cache.put(e.request.url, response.clone());
+	     return response;
+	  });
+	});
+      })
+    );
+  }
 });
