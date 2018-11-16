@@ -1,6 +1,7 @@
 var dataCacheName = 'demo';
 var cacheName = 'demoPWA';
 var filesToCache = [
+  '/',
   '/index.html',
   '/avatar.html',
   '/guia.html',
