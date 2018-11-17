@@ -4,9 +4,20 @@ var filesToCache = [
   '/',
   '/index.html',
   '/avatar.html',
-  '/guia.html',
+  '/guia1.html',
+  '/guia2.html',
+  '/guia3.html',
   '/juego.html',
-  '/perfil.html'
+  '/perfil.html',
+  '/bootstrap.css',
+  '/jquery.js',
+  '/bootstrap.js',
+  '/images/el.png',
+  '/images/ella.png',
+  '/images/logo.png',
+  '/images/monstruo.png',
+  '/images/pista.png',
+  '/images/tierra.png'
 ];
 
 self.addEventListener('install', function(e) {
