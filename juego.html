@@ -24,13 +24,190 @@
 
 <body>
 
+    <header>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #71a588;">
+		  	<a class="navbar-brand" href="#" style="color: #333;">Green-Terra</a>
+		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+		  	</button>
+		  	<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#" style="color: #333;">Misiones</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="perfil.html" style="color: #333;">Mi perfil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" style="color: #333;">Amigos</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" style="color: #333;">Ayuda</a>
+					</li>
+				</ul>
+		  	</div>
+		</nav>
+	</header>
+
 	<div class="container" style="background-image: url('images/pista.png'); height: 100%; position: absolute; background-size: cover;">
 		<div class="row">
 			<div class="col-12">
 				<!-- https://stackoverflow.com/questions/41333845/how-to-move-a-circle-from-a-canvas-with-the-mouse-when-its-hold -->
+				<canvas  id="canv" name="canv"></canvas>
 			</div>
 		</div>
 	</div>
+
+<script>
+    var canvas = document.getElementById("canv");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext("2d");
+    document.body.appendChild(canvas);
+
+    function mainLoop(time){  // this is called 60 times a second if there is no delay
+        ctx.clearRect(0,0,canvas.width,canvas.height);        
+        updateDisplay(); // call  the function that is rendering the display
+        // get the next frame
+        requestAnimationFrame(mainLoop);
+    }
+    // request the first frame. It will not start untill all the code below has been run
+    requestAnimationFrame(mainLoop);
+
+    
+    var mouse = (function(){
+        var bounds;
+        var m = {x:0,y:0,button:false};
+        function mouseEvent(event){
+            bounds = event.currentTarget.getBoundingClientRect();
+            m.x = event.pageX - bounds.left + scrollX;
+            m.y = event.pageY - bounds.top + scrollY;
+            if(event.type === "mousedown"){
+                m.button = true;
+            }else if(event.type === "mouseup"){
+                m.button = false;
+            }
+        }
+        m.start = function(element){
+            ["mousemove","mousedown","mouseup"].forEach(eventType => element.addEventListener(eventType, mouseEvent)); 
+        }
+        return m;
+    }())
+    mouse.start(canvas);
+
+
+    var circles = {
+        items : [],
+        drawCircle(){  // function for the circle
+            ctx.beginPath();    
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.stroke();
+        },
+        each(callback){  // iterator
+            var i;
+            for(i = 0; i < this.items.length; i++){
+                callback(this.items[i],i);
+            }
+        },
+        draw(){
+            this.each(c => {
+                c.draw();
+            })
+        },
+        addCircle(x,y,radius){
+            var circle = {x, y, radius, draw : this.drawCircle};
+            this.items.push(circle);
+            return circle;
+        },
+        getClosest(pos){
+            var minDist, i, dist, x, y, foundCircle;
+            minDist = Infinity;
+            this.each(c =>{
+                x = pos.x - c.x;
+                y = pos.y - c.y;
+                dist = Math.sqrt(x * x + y * y);
+                if(dist <= c.radius){
+                    if(foundCircle === undefined || (foundCircle && c.radius < foundCircle.radius)){
+                        minDist = dist;
+                        foundCircle = c;
+                    }
+                }
+            })
+            return foundCircle;
+        }
+    }
+    var dragging = {
+        started : false,
+        type : null,
+        currentObj : null,  // what we are dragging
+        startX : 0,
+        startY : 0,
+        start(type, obj){
+            this.startX = mouse.x;
+            this.startY = mouse.y;
+            this.started = true;
+            this.type = type;
+            this.currentObj = obj;
+        }
+        
+    }
+    var cursor = "default";
+    var overCircle = null;
+    function updateDisplay(){
+        var x,y, c;
+        cursor = "default"
+        if(mouse.x >= 0 && mouse.x < canvas.width && mouse.y >= 0 && mouse.y < canvas.height){
+            cursor = "crosshair";
+        }
+        if(mouse.button){  // the button is down
+            if(!dragging.started){
+                if(overCircle){
+                    dragging.start("move",overCircle)
+                    overCircle = null;
+
+                }else{
+                    dragging.start("create",circles.addCircle(mouse.x, mouse.y, 1));
+                }
+            }
+            c = dragging.currentObj;
+            if(dragging.type === "create"){
+                x = c.x - mouse.x;
+                y = c.y - mouse.y;
+                c.radius = Math.sqrt(x * x + y * y);
+            }else if(dragging.type === "move"){
+                x = dragging.startX - mouse.x;
+                y = dragging.startY - mouse.y;
+                c.x -= x;
+                c.y -= y;
+                dragging.startX = mouse.x;
+                dragging.startY = mouse.y;
+            }
+            cursor = "none";
+        } else {  // button must be up
+            if(dragging.started){ // have we been dragging something.
+                dragging.started = false; // drop it
+            }
+        }
+        ctx.strokeStyle = "black";
+        circles.draw();
+        
+        if(!dragging.started){
+            c = circles.getClosest(mouse);
+            if(c !== undefined){
+                cursor = "move";
+                ctx.strokeStyle = "red";
+                ctx.fillStyle = "rgba(0,255,255,0.1)";
+                c.draw();
+                ctx.fill();
+                overCircle = c;
+            }else{
+                overCircle = null;
+            }
+        }
+        canvas.style.cursor = cursor;
+    }
+</script>
 
 	<script src="jquery.js"></script>
 	<script src="bootstrap.js"></script>
