@@ -10,6 +10,8 @@ var filesToCache = [
   '/juego.html',
   '/perfil.html',
   '/misiones.html',
+  '/amigos.html',
+  '/ayuda.html',
   '/bootstrap.css',
   '/jquery.js',
   '/bootstrap.js',

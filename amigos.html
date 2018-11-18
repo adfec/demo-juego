@@ -38,13 +38,13 @@
 						<a class="nav-link" href="juego.html" style="color: #333;">Volver a jugar</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" style="color: #333;">Misiones</a>
+						<a class="nav-link" href="misiones.html" style="color: #333;">Misiones</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="perfil.html" style="color: #333;">Mi perfil</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="amigos.html" style="color: #333;">Amigos</a>
+						<a class="nav-link" href="#" style="color: #333;">Amigos</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="ayuda.html" style="color: #333;">Ayuda</a>
@@ -57,42 +57,21 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="row">
-			<div class="col-12" style="background-color: skyblue;">
+			<div class="col-12">
 				<br>
-				<h3>Intoxicación profunda</h3>
-				<img src="images/lock.png" alt="lock" onclick="mensaje(1);" style="width: 100%">
+				<input type="text" placeholder="Buscar"> <button>Buscar</button>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12" style="background-color:gainsboro;">
-				<br>
-				<h3>Aleatoria</h3>
-				<img src="images/lock.png" alt="lock" onclick="mensaje(2);" style="width: 100%">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12" style="background-color: palevioletred;">
-				<br>
-				<h3>Combate letal</h3>
-				<img src="images/lock.png" alt="lock" onclick="mensaje(3);" style="width: 100%">
+			<div class="col-12">
+				<br><br>
+				<ul style="list-style-type: none; margin-left: -2em;">
+					<li style="padding: 1em; background-color: yellow;">Dizar</li>
+					<li style="padding: 1em; background-color: palevioletred;">Fenix</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<script>
-		function mensaje(num) {
-			switch (num) {
-				case 1:
-					alert('Consiste en recolectar 50 botellas de plastico en un nivel. \nTiempo estimado: 2-5 minutos. \nRecompensa: 500mil de xp');
-					break;
-				case 2:
-					alert('Juega en modo aleatorio');
-					break;
-				case 3:
-					alert('Consiste en matar 5 monstruos cada uno en un único combate. \nTiempo estimado: 1 minuto por combate. \nRecompensa: 500mil de xp');
-					break;
-			}
-		}
-	</script>
 	<script src="jquery.js"></script>
 	<script src="bootstrap.js"></script>
 </body>
