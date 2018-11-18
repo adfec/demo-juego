@@ -1,25 +1,25 @@
 var dataCacheName = 'demo';
 var cacheName = 'demoPWA';
 var filesToCache = [
-  '/',
-  '/index.html',
-  '/avatar.html',
-  '/guia1.html',
-  '/guia2.html',
-  '/guia3.html',
-  '/juego.html',
-  '/perfil.html',
-  '/misiones.html',
-  '/bootstrap.css',
-  '/jquery.js',
-  '/bootstrap.js',
-  '/images/el.png',
-  '/images/ella.png',
-  '/images/logo.png',
-  '/images/lock.png',
-  '/images/monstruo.png',
-  '/images/pista.png',
-  '/images/tierra.png'
+  './',
+  './index.html',
+  './avatar.html',
+  './guia1.html',
+  './guia2.html',
+  './guia3.html',
+  './juego.html',
+  './perfil.html',
+  './misiones.html',
+  './bootstrap.css',
+  './jquery.js',
+  './bootstrap.js',
+  './images/el.png',
+  './images/ella.png',
+  './images/logo.png',
+  './images/lock.png',
+  './images/monstruo.png',
+  './images/pista.png',
+  './images/tierra.png'
 ];
 
 self.addEventListener('install', function(e) {
