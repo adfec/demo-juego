@@ -1,25 +1,25 @@
 var dataCacheName = 'demo';
 var cacheName = 'demoPWA';
 var filesToCache = [
-  './',
-  './index.html',
-  './avatar.html',
-  './guia1.html',
-  './guia2.html',
-  './guia3.html',
-  './juego.html',
-  './perfil.html',
-  './misiones.html',
-  './bootstrap.css',
-  './jquery.js',
-  './bootstrap.js',
-  './images/el.png',
-  './images/ella.png',
-  './images/logo.png',
-  './images/lock.png',
-  './images/monstruo.png',
-  './images/pista.png',
-  './images/tierra.png'
+  '/',
+  '/index.html',
+  '/avatar.html',
+  '/guia1.html',
+  '/guia2.html',
+  '/guia3.html',
+  '/juego.html',
+  '/perfil.html',
+  '/misiones.html',
+  '/bootstrap.css',
+  '/jquery.js',
+  '/bootstrap.js',
+  '/images/el.png',
+  '/images/ella.png',
+  '/images/logo.png',
+  '/images/lock.png',
+  '/images/monstruo.png',
+  '/images/pista.png',
+  '/images/tierra.png'
 ];
 
 self.addEventListener('install', function(e) {
@@ -48,7 +48,7 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
   if (e.request.method === 'GET') {
     e.respondWith(
-      caches.open(cacheName).then(function(cache) {
+      caches.open(dataCacheName).then(function(cache) {
 	      return cache.match(e.request).then(function(response){
 	        return response || fetch(e.request).then(function(response){
 	          cache.put(e.request.url, response.clone());
