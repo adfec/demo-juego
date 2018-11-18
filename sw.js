@@ -9,12 +9,14 @@ var filesToCache = [
   '/guia3.html',
   '/juego.html',
   '/perfil.html',
+  '/misiones.html',
   '/bootstrap.css',
   '/jquery.js',
   '/bootstrap.js',
   '/images/el.png',
   '/images/ella.png',
   '/images/logo.png',
+  '/images/lock.png',
   '/images/monstruo.png',
   '/images/pista.png',
   '/images/tierra.png'
@@ -44,7 +46,7 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
-  //if (e.request.method === 'GET') {
+  if (e.request.method === 'GET') {
     e.respondWith(
       caches.open(dataCacheName).then(function(cache) {
 	      return cache.match(e.request).then(function(response){
@@ -55,5 +57,5 @@ self.addEventListener('fetch', function(e) {
 	      });
       })
     );
-  //}
+  }
 });
